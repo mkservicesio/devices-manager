@@ -1,0 +1,89 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.9'
+	id 'java'
+	id "org.openapi.generator" version "5.0.1"
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'gr.esdalab.atlas.devices'
+version = '2.4.0-RC1.1'
+
+repositories {
+	mavenCentral()
+}
+
+tasks {
+	bootJar {
+		archiveFileName.set("devices-manager.jar")
+	}
+}
+
+dependencies {
+
+	/**
+	 * Spring Boot (Web)
+	 */
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+
+	/**
+	 * Database
+	 */
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.18'
+	compile group: 'com.vladmihalcea', name: 'hibernate-types-52', version: '2.4.3'
+	implementation group: 'org.flywaydb', name: 'flyway-core', version: '7.15.0'
+
+
+	/**
+	 * JavaX Validation
+	 */
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
+	/**
+	 *	Map Struct
+	 */
+	implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.4.2.Final'
+
+	/**
+	 * Open API (Swagger)
+	 */
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-webflux-ui', version: '1.5.9'
+	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.13'
+	implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
+
+	/**
+	 * Lombok
+	 */
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	/**
+	 * MQTT Related dependencies
+	 */
+	implementation group: 'org.springframework.integration', name: 'spring-integration-core', version: '5.3.9.RELEASE'
+	implementation group: 'org.springframework.integration', name: 'spring-integration-mqtt', version: '5.3.9.RELEASE'
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+	implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.69'
+	implementation group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.69'
+
+
+	/**
+	 * Testing
+	 */
+	testImplementation group: 'com.h2database', name: 'h2', version: '1.4.200'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.2'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.2'
+	testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.11.2'
+	testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.11.2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+
+}
+
+test {
+	useJUnitPlatform()
+}
